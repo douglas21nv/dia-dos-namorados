@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Dia dos Namorados</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #fff0f5;
+      color: #333;
+      text-align: center;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: linear-gradient(135deg, #ffc0cb, #ff69b4);
+      padding: 20px;
+      color: white;
+      font-size: 2.2em;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .carousel {
+      position: relative;
+      max-width: 90%;
+      margin: 20px auto;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .carousel-container {
+      display: flex;
+      transition: transform 0.5s ease;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .carousel img {
+      width: 100%;
+      max-width: 250px;
+      height: auto;
+      display: none;
+      border-radius: 15px;
+      margin: 0 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .carousel img.active {
+      display: block;
+      transform: scale(1.05);
+    }
+
+    .controls {
+      margin-top: 10px;
+    }
+
+    button {
+      background: #ff69b4;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      margin: 5px;
+      border-radius: 10px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      min-height: 48px;
+    }
+
+    button:hover {
+      background: #ff1493;
+      transform: scale(1.05);
+    }
+
+    .text-section {
+      max-width: 700px;
+      margin: 40px auto;
+      font-size: 1.1em;
+      line-height: 1.6;
+      padding: 20px 15px;
+      background: #ffe4e1;
+      border-radius: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .music-section {
+      margin: 30px;
+    }
+
+    .music-section button {
+      font-size: 1.1em;
+      padding: 12px 20px;
+      background: #db7093;
+    }
+
+    /* Responsivo para celular */
+    @media (max-width: 600px) {
+      header {
+        font-size: 1.5em;
+      }
+
+      .carousel img {
+        max-width: 180px;
+      }
+
+      .text-section {
+        font-size: 1em;
+        padding: 20px 15px;
+      }
+
+      .music-section button {
+        width: 90%;
+        font-size: 1em;
+      }
+
+      .heart {
+        width: 15px;
+        height: 15px;
+      }
+
+      .heart::before,
+      .heart::after {
+        width: 15px;
+        height: 15px;
+      }
+    }
+
+    /* Corações flutuantes */
+    @keyframes floatHearts {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-600px) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(45deg);
+      animation: floatHearts 6s ease-in infinite;
+      opacity: 0.6;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    Douglas ❤️ Émile
+  </header>
+
+  <section class="carousel">
+    <div class="carousel-container">
+      <img src="casal1.jpg" alt="Casal 1" class="active">
+      <img src="casal1.2.jpg" alt="Casal 2">
+      <img src="casal1.3.jpg" alt="Casal 3">
+    </div>
+    <div class="controls">
+      <button onclick="prevSlide()">❮</button>
+      <button onclick="nextSlide()">❯</button>
+    </div>
+  </section>
+
+  <section class="text-section">
+    <p>
+      Desde o dia em que nos conhecemos, tudo mudou. Nossos risos se tornaram mais leves, os dias mais coloridos e a vida mais doce. Cada momento ao seu lado é uma história linda que quero guardar para sempre. Obrigado(a) por ser meu amor, meu porto seguro e minha alegria diária. Que esse seja apenas um dos muitos capítulos da nossa linda história juntos. Te amo para sempre ❤️
+    </p>
+  </section>
+
+  <section class="music-section">
+    <button onclick="toggleMusic()">▶ Tocar nossa música</button>
+    <audio id="loveSong" src="musica.mp3">musica1.mp3</audio>
+  </section>
+
+  <script>
+    let currentIndex = 0;
+    const slides = document.querySelectorAll(".carousel img");
+    const totalSlides = slides.length;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.remove("active");
+        if (i === index) slide.classList.add("active");
+      });
+    }
+
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      showSlide(currentIndex);
+    }
+
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+      showSlide(currentIndex);
+    }
+
+    function toggleMusic() {
+      const music = document.getElementById("loveSong");
+      if (music.paused) {
+        music.play();
+      } else {
+        music.pause();
+      }
+    }
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (Math.random() * 2 + 4) + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+
+    setInterval(createHeart, 500);
+
+    document.addEventListener("DOMContentLoaded", () => {
+      showSlide(currentIndex);
+    });
+  </script>
+</body>
+</html>
